@@ -28,16 +28,16 @@ const corsOptions = {
 }; //mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net
 app.use(cors(corsOptions));
 
+app.get("/test", (req, res) => {
+  res.send("Test route is working!");
+});
+
 // Routes
 app.get("/home", (req, res) => {
   return res.status(200).json({
     message: "I'm coming from the backend",
     success: true,
   });
-});
-
-app.get("/test", (req, res) => {
-  res.send("Test route is working!");
 });
 
 app.use("/api/v1/user", userRoute);
