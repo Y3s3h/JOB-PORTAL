@@ -19,10 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-  origin:
-    "https://mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net", // Corrected the origin URL http://localhost:5173
+  origin: [
+    "http://localhost:5173",
+    "https://mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net",
+  ], // Corrected the origin URL http://localhost:5173
   credentials: true,
-};
+}; //mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net
 app.use(cors(corsOptions));
 
 // Routes
@@ -42,10 +44,15 @@ app.use("/api/v1/application", applicationRoute);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../frontened/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../frontened/dist", "index.html"));
+});
+
+app.use((req, res, next) => {
+  console.log(`${req.method} request for '${req.url}'`);
+  next();
 });
 
 connectDB()
