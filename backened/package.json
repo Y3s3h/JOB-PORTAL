@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build": "npm install && npm install --prefix frontened && npm run build --prefix frontened"
   },
   "author": "",
   "license": "ISC",

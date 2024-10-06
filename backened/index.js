@@ -10,6 +10,7 @@ import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const app = express();
 
@@ -18,20 +19,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Get the directory name from the current file URL
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-
     "https://mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net",
   ],
+
   credentials: true,
 }; //mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net
 app.use(cors(corsOptions));
 
-app.get("/test", (req, res) => {
-  res.send("Test route is working!");
-});
-
+// const __dirname = path.resolve();
 // Routes
 app.get("/home", (req, res) => {
   return res.status(200).json({
@@ -48,13 +50,10 @@ app.use("/api/v1/application", applicationRoute);
 
 //for azure service   commands
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, "../frontened/dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontened/dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
 connectDB()

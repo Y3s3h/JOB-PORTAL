@@ -10,3 +10,4 @@ export default defineConfig({
     },
   },
 });
+//https://mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net
