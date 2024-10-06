@@ -8,6 +8,9 @@ import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
 const app = express();
 
 // Middleware
@@ -16,7 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: "http://localhost:5173", // Corrected the origin URL
+  origin:
+    "https://mern-azure-jobportal-chadgheweteyded3.westeurope-01.azurewebsites.net", // Corrected the origin URL http://localhost:5173
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -34,6 +38,16 @@ app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 // Connect to the database first
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+});
+
 connectDB()
   .then(() => {
     // Start the server only after a successful DB connection
